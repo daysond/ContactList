@@ -20,7 +20,7 @@ int main(int argc, const char * argv[]) {
         while (YES) {
             
             Contact* myContact = [[Contact alloc]init];
-            NSLog(@"What would you like do next? \nnew - Create a new contact \nlist - List all contacts \nquit - Exit Application \add - Add phone number" );
+            NSLog(@"What would you like do next? \nnew - Create a new contact \nlist - List all contacts \nquit - Exit Application \nadd - Add phone number" );
             NSString* userInput = [inputCollector inputForPrompt:@"Enter a prompt:"];
             
             if ([userInput isEqualToString:@"new"]) {
@@ -82,7 +82,30 @@ int main(int argc, const char * argv[]) {
                         NSLog(@"Contact doesnot exist.");
                     }
                 }
+            } else if ([userInput isEqualToString:@"history"]) {
+                int i = 0;
+                NSArray* historyArray = [[NSArray alloc]initWithArray:[inputCollector inputHistory]];
+                NSString* history = @"";
                 
+                if ([historyArray count] == 1) {
+                    NSLog(@"%@\n",historyArray[0]);
+                } else if ([historyArray count] == 2) {
+                    while (i < 2) {
+                        if (historyArray[i] != nil) {
+                            history = [history stringByAppendingString:[NSString stringWithFormat:@"%@\n",historyArray[i]]];
+                        }
+                        i++;
+                    }
+                } else {
+                    while (i < 3) {
+                        if (historyArray[i] != nil) {
+                            history = [history stringByAppendingString:[NSString stringWithFormat:@"%@\n",historyArray[i]]];
+                        }
+                        i++;
+                    }
+                }
+                
+                NSLog(@"%@",history);
             }
             
             

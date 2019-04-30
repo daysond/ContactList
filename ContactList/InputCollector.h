@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface InputCollector : NSObject
 
+@property NSMutableArray* inputHistory;
 
 -(NSString *)inputForPrompt:(NSString *)promptString;
 

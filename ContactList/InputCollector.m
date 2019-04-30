@@ -16,8 +16,16 @@
     char inputChars[255];
     fgets(inputChars, 255,stdin);
     NSString *inputString = [[NSString stringWithUTF8String:inputChars] stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
-    
+    [self.inputHistory insertObject:inputString atIndex:0];
     return inputString;
+}
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _inputHistory = [[NSMutableArray alloc] init];
+    }
+    return self;
 }
 
 @end
