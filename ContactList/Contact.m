@@ -9,5 +9,16 @@
 #import "Contact.h"
 
 @implementation Contact
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _phoneNumber = [[NSMutableDictionary alloc] init];
+//        self.name = name;
+//        self.email = email;
+        
+    }
+    return self;
+}
 
 @end

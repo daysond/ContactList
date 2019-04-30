@@ -20,21 +20,69 @@ int main(int argc, const char * argv[]) {
         while (YES) {
             
             Contact* myContact = [[Contact alloc]init];
-            NSLog(@"What would you like do next? \nnew - Create a new contact \nlist - List all contacts \nquit - Exit Application");
+            NSLog(@"What would you like do next? \nnew - Create a new contact \nlist - List all contacts \nquit - Exit Application \add - Add phone number" );
             NSString* userInput = [inputCollector inputForPrompt:@"Enter a prompt:"];
             
             if ([userInput isEqualToString:@"new"]) {
                 
                 myContact.name = [inputCollector inputForPrompt:@"Enter a name:"];
                 myContact.email = [inputCollector inputForPrompt:@"Enter an Email:"];
+                
+                for (Contact* contact in [myContactList contactList]) {
+                    if ([contact.email isEqualToString:myContact.email]) {
+                        if ([contact.name isEqualToString:myContact.name]){
+                            NSLog(@"Contact already exists.");
+                        }
+                    }
+                }
+                
                 [myContactList addContact:myContact];
                 
                 
             } else if ([userInput isEqualToString:@"quit"]) {
                 break;
+            
             } else if ([userInput isEqualToString:@"list"]) {
                 NSString* list = [myContactList description ];
                 NSLog(@"%@",list);
+            
+            } else if ([userInput length]> 4 && [[userInput substringWithRange:NSMakeRange(0, 4)] isEqualToString:@"show"]) {
+                int index = [[userInput substringWithRange:NSMakeRange(5,[userInput length] - 5)] intValue];
+                if (index < [[myContactList contactList] count]) {
+                    Contact* contact = [myContactList contactList][index];
+                    NSLog(@"Name: %@\nEmail:%@",contact.name,contact.email);
+                } else {
+                    NSLog(@"Not found.");
+                }
+           
+            } else if ([userInput length]> 4 && [[userInput substringWithRange:NSMakeRange(0, 4)] isEqualToString:@"find"]) {
+                NSString* keyword = [userInput substringWithRange:NSMakeRange(5,[userInput length] - 5)];
+                
+                for (Contact* contact in [myContactList contactList]) {
+                    if ([contact.name containsString:keyword] || [contact.email containsString:keyword]) {
+                         NSLog(@"Name: %@\nEmail:%@",contact.name,contact.email);
+                    }
+                }
+            
+            } else if ([userInput isEqualToString:@"add"]) {
+                
+                NSString* keyword = [inputCollector inputForPrompt:@"Enter the name of the contact that you want to add the phone number to:"];
+                for (Contact* contact in myContactList.contactList) {
+                    if ([contact.name containsString:keyword] || [contact.email containsString:keyword]) {
+                        NSString* label = [inputCollector inputForPrompt:@"Enter phone number label:"];
+                        NSString* number = [inputCollector inputForPrompt:@"Enter phone number:"];
+//                        [contact.phoneNumber setObject:label forKey:number];
+                        contact.phoneNumber[label] = number;
+                        
+//                        contact.name = @"hi"; [contact setValue:@"hi" forKey:@"name"];
+//                        NSLog(@"%@: %@",label, [contact.phoneNumber objectForKey:label]);
+                        
+                        NSLog(@"%@: %@",label, contact.phoneNumber[label]);
+                    } else {
+                        NSLog(@"Contact doesnot exist.");
+                    }
+                }
+                
             }
             
             
